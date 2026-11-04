@@ -20,23 +20,24 @@ export function Capa({ aoInscrever }: { aoInscrever: (email: string) => void }) 
   }
 
   return (
-    <div className="relative flex h-dvh min-h-[640px] flex-col overflow-hidden bg-noite text-white">
-      {/* foto */}
-      <img src={fotoCapa} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "44% 30%" }} />
-      {/* leitura: escurece em cima (marca) e embaixo (formulário) */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(8,19,53,0.75) 0%, rgba(8,19,53,0.05) 24%, rgba(8,19,53,0.1) 40%, rgba(8,19,53,0.86) 64%, #081335 100%)" }} />
+    <div className="relative flex h-dvh min-h-[640px] flex-col overflow-hidden bg-white text-white">
+      {/* foto: céu claro em cima, silhueta escura embaixo */}
+      <img src={fotoCapa} alt="" className="absolute left-0 w-full object-cover" style={{ top: "-12%", height: "112%", objectPosition: "51% 0%" }} />
+      {/* embaixo a foto se funde no azul-noite, onde fica o formulário */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(8,19,53,0) 0%, rgba(8,19,53,0) 42%, rgba(8,19,53,0.6) 54%, rgba(8,19,53,0.93) 66%, #081335 80%)" }} />
 
       <header className="relative flex flex-col items-center pt-7">
         <Simbolo tamanho={44} />
-        <p className="mt-2.5 text-[13px] font-semibold tracking-[0.04em] text-white/85">abbafit</p>
+        <p className="mt-2.5 text-[13px] font-semibold tracking-[0.04em] text-tinta">abbafit</p>
       </header>
+
 
       <div className="flex-1" />
 
       <form onSubmit={entrar} noValidate className="relative mx-auto w-full max-w-md px-6 pb-7">
-        <h1 className="titulo text-[34px] leading-[1]">Treino para o corpo. Pausa para a alma.</h1>
+        <h1 className="titulo text-[32px] leading-[1.02] text-white">Treino para o corpo. Pausa para a alma.</h1>
 
-        <div className="mt-6 flex flex-col gap-2.5">
+        <div className="mt-5 flex flex-col gap-2.5">
           <label className="flex h-[54px] overflow-hidden rounded-[14px] bg-white text-tinta focus-within:ring-[3px] focus-within:ring-luz/70">
             <span className="flex w-[54px] shrink-0 items-center justify-center bg-azul text-white"><Mail size={20} /></span>
             <input id="capa-email" type="email" inputMode="email" autoComplete="email" placeholder="E-mail" aria-label="E-mail"
