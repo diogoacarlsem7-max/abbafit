@@ -1,0 +1,118 @@
+@import "tailwindcss" source("./");
+
+/*
+  AbbaFit — identidade visual
+  Azul e branco. A tela de descanso (azul-noite, versículo em serifa) é o momento marcante;
+  o resto do app é claro, limpo e disciplinado.
+  Tipos: Archivo (largo e pesado nos títulos, normal no texto) + Newsreader (a Palavra).
+*/
+@theme inline {
+  --font-display: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-sans: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-palavra: "Newsreader Variable", "Newsreader", Georgia, serif;
+
+  --color-fundo: #f4f7fc;
+  --color-branco: #ffffff;
+  --color-tinta: #0b1638;
+  --color-suave: #56617f;
+  --color-fraco: #8a93ab;
+  --color-linha: #e1e7f2;
+  --color-azul: #1d3fd6;
+  --color-azul-2: #2f54f0;
+  --color-ceu: #e6ecff;
+  --color-noite: #081335;
+  --color-noite-2: #12235f;
+  --color-luz: #a9bcff;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; background: var(--color-fundo); }
+  body {
+    margin: 0;
+    background: var(--color-fundo);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+    padding-top: env(safe-area-inset-top);
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0 0 auto 0; height: env(safe-area-inset-top);
+    background: var(--color-fundo); z-index: 70; pointer-events: none;
+  }
+  :focus-visible { outline: 2px solid var(--color-azul-2); outline-offset: 2px; }
+  button { cursor: pointer; }
+  input::placeholder, textarea::placeholder { color: var(--color-fraco); }
+  input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"] { -moz-appearance: textfield; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+/* Títulos: Archivo largo (125%) e pesado. É a "voz de treino" do app. */
+@utility titulo {
+  font-family: var(--font-display); font-stretch: 125%; font-weight: 800; letter-spacing: -0.015em; line-height: 1.02;
+}
+/* A Palavra: serifa calma, contraste com os títulos largos */
+@utility palavra {
+  font-family: var(--font-palavra); font-weight: 400; letter-spacing: -0.005em; line-height: 1.32;
+  font-optical-sizing: auto;
+}
+@utility numero {
+  font-family: var(--font-display); font-stretch: 112%; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+}
+
+@utility campo {
+  width: 100%; min-height: 50px; padding: 0 1rem; border-radius: 14px;
+  background: var(--color-branco); border: 1.5px solid var(--color-linha); color: var(--color-tinta); font-size: 16px;
+  &:focus { outline: none; border-color: var(--color-azul); box-shadow: 0 0 0 4px rgba(29, 63, 214, 0.12); }
+}
+
+@utility botao {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 56px; padding: 0 1.5rem; border-radius: 16px;
+  background: var(--color-azul); color: #fff;
+  font-weight: 700; font-size: 16px; font-stretch: 112%;
+  transition: background 0.15s, transform 0.1s;
+  &:hover { background: var(--color-azul-2); }
+  &:active { transform: scale(0.985); }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
+}
+@utility botao-claro {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 56px; padding: 0 1.5rem; border-radius: 16px;
+  background: #fff; color: var(--color-noite);
+  font-weight: 700; font-size: 16px; font-stretch: 112%;
+  &:active { transform: scale(0.985); }
+}
+@utility botao-sec {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 52px; padding: 0 1.25rem; border-radius: 16px;
+  background: var(--color-ceu); color: var(--color-azul);
+  font-weight: 700; font-size: 15px; font-stretch: 112%;
+  &:active { transform: scale(0.985); }
+  &:disabled { opacity: 0.45; }
+}
+
+/* superfícies: papel branco com borda fina; sem sombra cinza genérica */
+@utility papel {
+  background: var(--color-branco); border: 1px solid var(--color-linha); border-radius: 22px;
+}
+/* o céu à noite: usado no treino de hoje e no descanso */
+@utility ceu-noite {
+  background:
+    radial-gradient(120% 80% at 85% -10%, rgba(78, 110, 255, 0.45), transparent 60%),
+    radial-gradient(90% 60% at 0% 110%, rgba(29, 63, 214, 0.35), transparent 60%),
+    var(--color-noite);
+  color: #fff;
+}
+
+@utility pb-seguro { padding-bottom: env(safe-area-inset-bottom); }
+@utility min-h-tela { min-height: calc(100dvh - env(safe-area-inset-top)); }
+
+@keyframes subir { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+.entrar { animation: subir 0.28s ease-out; }
+@keyframes amanhecer { from { opacity: 0; transform: translateY(6px); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
+.amanhecer { animation: amanhecer 0.9s cubic-bezier(.2,.7,.2,1) both; }
