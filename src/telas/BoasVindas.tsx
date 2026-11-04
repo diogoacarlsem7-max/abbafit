@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Check, ChevronLeft } from "lucide-react";
 import { useApp, type Etapa, type Objetivo, type Perfil } from "../lib/estado";
-import { Logo, Simbolo } from "../componentes/Marca";
+import { Capa } from "./Capa";
 
 const OBJETIVOS: { v: Objetivo; l: string; d: string }[] = [
   { v: "massa", l: "Ganhar massa", d: "Ficar mais forte e encorpado" },
@@ -22,6 +22,7 @@ const MOTIVOS = ["Saúde", "Autoestima", "Disciplina", "Ter energia para a famí
 export function BoasVindas() {
   const { salvarPerfil } = useApp();
   const [passo, setPasso] = useState(0);
+  const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
   const [objetivo, setObjetivo] = useState<Objetivo | null>(null);
   const [local, setLocal] = useState<"academia" | "casa" | null>(null);
@@ -30,22 +31,7 @@ export function BoasVindas() {
   const [consente, setConsente] = useState(false);
   const [porque, setPorque] = useState("");
 
-  if (passo === 0) {
-    return (
-      <div className="ceu-noite flex min-h-tela flex-col px-6 pt-8 pb-8">
-        <Logo claro />
-        <div className="flex flex-1 flex-col justify-center">
-          <Simbolo tamanho={76} fundo="rgba(255,255,255,0.08)" className="amanhecer mb-8" />
-          <h1 className="titulo amanhecer text-[44px] leading-[0.98]" style={{ animationDelay: "120ms" }}>Treino para o corpo. Pausa para a alma.</h1>
-          <p className="amanhecer mt-5 max-w-[34ch] text-[16px] leading-relaxed text-white/75" style={{ animationDelay: "260ms" }}>
-            Entre uma série e outra, uma palavra da Bíblia traduzida para o seu treino. Você não precisa já ter fé para usar.
-          </p>
-        </div>
-        <button className="botao-claro w-full" onClick={() => setPasso(1)}>Começar</button>
-        <p className="mt-4 text-center text-xs text-white/55">O AbbaFit é um app de treino cristão.</p>
-      </div>
-    );
-  }
+  if (passo === 0) return <Capa aoInscrever={(em) => { setEmail(em.trim()); setPasso(1); }} />;
 
   const podeAvancar =
     passo === 1 ? nome.trim().length >= 2 && !!objetivo && !!local :
@@ -55,7 +41,7 @@ export function BoasVindas() {
   function concluir() {
     const comFe = etapa && etapa !== "nao" ? (etapa as Etapa) : null;
     const p: Perfil = {
-      nome: nome.trim(), objetivo: objetivo!, local: local!,
+      nome: nome.trim(), email, objetivo: objetivo!, local: local!,
       trilha: comFe === "caminhando" ? "caminhar" : "conhecer",
       etapa: comFe, desde: comFe === "caminhando" && /^\d{4}$/.test(desde) ? Number(desde) : null,
       consentimentoFe: comFe ? new Date().toISOString() : null,

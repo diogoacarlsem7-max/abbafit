@@ -7,6 +7,7 @@ export type Objetivo = "massa" | "gordura" | "condicionamento" | "voltar";
 
 export type Perfil = {
   nome: string;
+  email?: string;
   objetivo: Objetivo;
   local: "academia" | "casa";
   trilha: "conhecer" | "caminhar";
